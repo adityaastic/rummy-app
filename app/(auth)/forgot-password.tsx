@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { router } from 'expo-router';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import {Link,router } from 'expo-router';
 import { z } from 'zod';
 import * as Location from 'expo-location';
-import { Mail, Phone } from 'lucide-react-native';
+import { Phone } from 'lucide-react-native';
+import ComLogo from '@/assets/images/com-logo.svg';
 
 const forgotPasswordSchema = z.object({
   mobile: z.string().min(10).max(10),
@@ -35,9 +36,9 @@ export default function ForgotPassword() {
         longitude: location.coords.longitude,
       });
 
-      const locationString = address[0] ? 
-        `${address[0].street}, ${address[0].city}, ${address[0].region}, ${address[0].postalCode}, ${address[0].country}` :
-        'Unknown location';
+      const locationString = address[0]
+        ? `${address[0].street}, ${address[0].city}, ${address[0].region}, ${address[0].postalCode}, ${address[0].country}`
+        : 'Unknown location';
 
       const response = await fetch('http://127.0.0.1:3500/club/forgot-password/', {
         method: 'POST',
@@ -76,13 +77,20 @@ export default function ForgotPassword() {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Forgot MPIN?</Text>
-        <Text style={styles.subtitle}>
-          Enter your registered mobile number to receive an OTP
-        </Text>
+        <Text style={styles.title}>Welcome To BGM Game!</Text>
       </View>
 
+      {/* Logo */}
+      <View style={[styles.logoContainer, { marginTop: 30 }]}>
+                  <ComLogo width={150} height={150} />
+                </View>
+
+      {/* Title */}
+      <Text style={[styles.signupText,{ marginBottom: 30 }]}>SIGN UP</Text>
+
+      {/* Input Fields */}
       <View style={styles.form}>
         <View style={styles.inputContainer}>
           <Phone size={20} color="#666" style={styles.inputIcon} />
@@ -110,13 +118,18 @@ export default function ForgotPassword() {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Text style={styles.backButtonText}>Back to Login</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+          
+          
         </TouchableOpacity>
+        <Link href="/login" style={styles.createAccount}>Already have an account? Login</Link>
       </View>
+
+      {/* Footer Links */}
+      {/* <View style={styles.footer}>
+        <Text style={styles.footerText}>About Us | Privacy Policy | Refund Policy</Text>
+        <Text style={styles.footerText}>Help | Cancellation Policy | Referral Policy | Withdraw Policy</Text>
+      </View> */}
     </View>
   );
 }
@@ -125,49 +138,75 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
-  },
-  header: {
-    marginTop: 60,
-    marginBottom: 40,
+    backgroundColor: '#e6f2e6',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
-    color: '#1a1a1a',
+    color: '#ffffff',
+    backgroundColor: '#04240c',
+    width: '100%',
+    textAlign: 'center',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
+  signupText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#04240c',
+    marginBottom: 10,
   },
+  header: {
+    width: '100%',
+    
+    
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  logoContainer: {
+    marginVertical: 20,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+  },
+
   form: {
-    gap: 20,
+    width: '100%',
+    alignItems: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '90%',
     borderWidth: 1,
-    borderColor: '#e1e1e1',
+    borderColor: '#04240c',
     borderRadius: 12,
     paddingHorizontal: 16,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#fff',
+    marginBottom: 10,
   },
   inputIcon: {
-    marginRight: 12,
+    marginRight: 10,
   },
   input: {
     flex: 1,
     height: 50,
     fontSize: 16,
-    color: '#1a1a1a',
+    color: '#04240c',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#05791e',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
+    width: '90%',
     marginTop: 8,
   },
   buttonDisabled: {
@@ -181,14 +220,30 @@ const styles = StyleSheet.create({
   error: {
     color: '#ff3b30',
     fontSize: 14,
-    marginTop: -8,
+    marginBottom: 8,
   },
   backButton: {
-    alignItems: 'center',
     padding: 12,
   },
   backButtonText: {
-    color: '#007AFF',
+    color: '#004d00',
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  footer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#004d00',
+    marginVertical: 2,
+  },
+  createAccount: {
+    color: '#04240c',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 20,
   },
 });
+
