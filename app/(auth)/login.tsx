@@ -241,6 +241,7 @@ export default function Login() {
       console.log("API Response:", data);
       console.log("Token Type:", typeof data.jwt_token);
       console.log("Token Value:", data.jwt_token);
+      console.log("Token Value:", data.mobile);
 
       // Ensure the token is a valid string
       if (!data.jwt_token || typeof data.jwt_token !== 'string') {
@@ -249,7 +250,8 @@ export default function Login() {
 
       // Check if SecureStore is available before setting token
       if (await SecureStore.isAvailableAsync()) {
-        await SecureStore.setItemAsync('authToken', data.jwt_token);
+        await SecureStore.setItemAsync('mobile', data?.mobile);
+        // await SecureStore.setItemAsync('authToken', data?.jwt_token);
       } else {
         console.warn("SecureStore is not available on this device.");
       }
@@ -257,7 +259,8 @@ export default function Login() {
       await signIn(data.jwt_token);
 
       // Navigate to home
-      router.replace('/(tabs)');
+      // router.replace('/(tabs)');
+      router.replace("/Home")
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError('Please check your mobile number and MPIN');
