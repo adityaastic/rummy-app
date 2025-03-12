@@ -1,13 +1,29 @@
-import { View, Text, StyleSheet, Pressable, Linking } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Linking  } from 'react-native';
+import { useState, useEffect } from 'react';
 import { Link } from 'expo-router';
 import { Redirect } from "expo-router";
 export default function Home() {
+
+    const [userMobile, setUserMobile] = useState<string>('');
+  
+    useEffect(() => {
+      const mobile = localStorage.getItem('mobile');
+      if (mobile) {
+        setUserMobile(mobile);
+      }
+    }, []);
+
+    if (!userMobile) {
+      return <Redirect href="/login" />;
+    }
+
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to BGM GAME</Text>
       
-      <Link href="/lobby" asChild>
+      <Link href="/RummyGame" asChild>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Play Rummy</Text>
         </Pressable>

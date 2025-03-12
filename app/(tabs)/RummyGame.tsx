@@ -242,7 +242,7 @@ export default function RummyGame() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Rummy Game' }} />
+      <Stack.Screen options={{ title: 'Rummy Games' }}  />
       <View style={styles.container}>
         {!gameStarted ? (
           <View style={styles.startContainer}>

@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import { QrCode, X } from 'lucide-react-native';
-import { useDeposit, useGetDeposit } from "../../hooks/api";
+import { useDeposit, useGetDeposit , useGetWallet } from "../../hooks/api";
 
 interface ModalProps {
   isOpen: boolean;
@@ -158,6 +158,7 @@ function Wallet() {
     }
   }, []);
   const { data, isLoading, error } = useGetDeposit(userMobile);
+  const { data: walletData, isLoading: walletLoading, error: walletError } = useGetWallet(userMobile);
 
 
   const predefinedAmounts = [500, 1000, 1500, 2000, 2500, 3000];
@@ -188,6 +189,14 @@ function Wallet() {
         padding: 24,
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
       }}>
+        <h1 style={{
+          fontSize: 24,
+          fontWeight: 'bold',
+          marginBottom: 24,
+          color: '#333'
+        }}>
+          Total Points: {walletData?.TotalAmount}  
+        </h1>
         <h1 style={{
           fontSize: 24,
           fontWeight: 'bold',

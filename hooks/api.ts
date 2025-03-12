@@ -215,3 +215,30 @@ export function useGetDeposit(mobile: string) {
     staleTime: 5 * 60 * 1000,
   });
 }
+
+export function useGetWallet(mobile: string) {
+  return useQuery({
+    queryKey: ['Wallet', mobile], 
+    queryFn: async () => {
+      if (!mobile) throw new Error('Mobile number is required');
+
+      const response = await fetch(`${API_URL}/club/rummy-wallet-get/?mobile=${mobile}`);
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to fetch deposit';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (error) {
+          console.error('Error parsing error response:', error);
+        }
+        throw new Error(errorMessage);
+      }
+
+      return response.json();
+    },
+    enabled: !!mobile,
+    retry: 2, 
+    staleTime: 5 * 60 * 1000,
+  });
+}

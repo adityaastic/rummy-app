@@ -24,13 +24,13 @@ export default function TabLayout() {
           tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="lobby"
         options={{
           title: 'Lobby',
           tabBarIcon: ({ size, color }) => <Users size={size} color={color} />,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="settings"
         options={{
@@ -50,8 +50,10 @@ export default function TabLayout() {
         options={{
           title: 'Rummy',
           tabBarIcon: ({ size, color }) => <RummyIcon size={size} color={color} />,
-        }}
+        }
+      }
       />
+
 
 
     </Tabs>
