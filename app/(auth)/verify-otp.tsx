@@ -34,26 +34,7 @@ export default function VerifyOTP() {
       setError('');
       setLoading(true);
 
-      // Validate input
-      verifySchema.parse({ mobile, email, otp, mpin });
-
-      // Get location
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setError('Location permission is required');
-        return;
-      }
-
-      const location = await Location.getCurrentPositionAsync({});
-      const address = await Location.reverseGeocodeAsync({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
-
-      const locationString = address[0] ? 
-        `${address[0].street}, ${address[0].city}, ${address[0].region}, ${address[0].postalCode}, ${address[0].country}` :
-        'Unknown location';
-
+      verifySchema.parse({ mobile, email, otp, mpin })
       const response = await fetch('http://127.0.0.1:3500/club/verify-otp/', {
         method: 'POST',
         headers: {
@@ -63,8 +44,7 @@ export default function VerifyOTP() {
           mobile,
           email,
           otp,
-          mpin,
-          last_login_Location: locationString,
+          mpin
         }),
       });
 
@@ -74,12 +54,7 @@ export default function VerifyOTP() {
         throw new Error(data.message || 'Verification failed');
       }
 
-      // Store the auth token
-      await SecureStore.setItemAsync('authToken', data.token);
-      await signIn(data.token);
-      
-      // Navigate to home
-      router.replace('/(tabs)');
+      router.replace('/Home');
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError('Please check your OTP and MPIN');
@@ -92,6 +67,8 @@ export default function VerifyOTP() {
       setLoading(false);
     }
   };
+
+
 
   const handleResendOTP = async () => {
     try {

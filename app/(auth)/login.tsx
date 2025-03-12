@@ -247,11 +247,12 @@ export default function Login() {
       if (!data.jwt_token || typeof data.jwt_token !== 'string') {
         throw new Error('Invalid or missing token received from the server');
       }
+      
+      await localStorage.setItem('mobile', data?.mobile);
 
       // Check if SecureStore is available before setting token
       if (await SecureStore.isAvailableAsync()) {
-        await SecureStore.setItemAsync('mobile', data?.mobile);
-        // await SecureStore.setItemAsync('authToken', data?.jwt_token);
+        await SecureStore.setItemAsync('authToken', data?.jwt_token);
       } else {
         console.warn("SecureStore is not available on this device.");
       }

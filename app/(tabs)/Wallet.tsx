@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { QrCode, X } from 'lucide-react-native';
 import { useDeposit, useGetDeposit } from "../../hooks/api";
 
@@ -11,6 +11,14 @@ interface ModalProps {
 const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
   const [utrNumber, setUtrNumber] = useState('');
   const depositMutation = useDeposit();
+  const [userMobile, setUserMobile] = useState<string>('');
+
+  useEffect(() => {
+    const mobile = localStorage.getItem('mobile');
+    if (mobile) {
+      setUserMobile(mobile);
+    }
+  }, []);
 
   if (!isOpen) return null;
 
@@ -18,7 +26,7 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
     e.preventDefault();
     depositMutation.mutate(
       {
-        mobile: '6203528288', // Fixed mobile number
+        mobile: userMobile ,
         amount,
         utr: utrNumber,
       })
@@ -141,7 +149,15 @@ function Wallet() {
   const [amount, setAmount] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState<number>(0);
-  const { data, isLoading, error } = useGetDeposit('6203528288');
+  const [userMobile, setUserMobile] = useState<string>('');
+
+  useEffect(() => {
+    const mobile = localStorage.getItem('mobile');
+    if (mobile) {
+      setUserMobile(mobile);
+    }
+  }, []);
+  const { data, isLoading, error } = useGetDeposit(userMobile);
 
 
   const predefinedAmounts = [500, 1000, 1500, 2000, 2500, 3000];
@@ -316,3 +332,4 @@ function Wallet() {
 }
 
 export default Wallet;
+
