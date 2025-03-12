@@ -241,16 +241,28 @@ export default function Login() {
 
       const data = await loginMutation.mutateAsync({ mobile, mpin });
 
+      console.log("API Response:", data);
+      console.log("Token Type:", typeof data.jwt_token);
+      console.log("Token Value:", data.jwt_token);
+      console.log("Token Value:", data.mobile);
+
+      // Ensure the token is a valid string
       if (!data.jwt_token || typeof data.jwt_token !== 'string') {
         throw new Error('Invalid or missing token received from the server');
       }
 
       if (await SecureStore.isAvailableAsync()) {
-        await SecureStore.setItemAsync('authToken', data.jwt_token);
+        await SecureStore.setItemAsync('mobile', data?.mobile);
+        // await SecureStore.setItemAsync('authToken', data?.jwt_token);
+      } else {
+        console.warn("SecureStore is not available on this device.");
       }
 
       await signIn(data.jwt_token);
-      router.replace('/(tabs)');
+
+      // Navigate to home
+      // router.replace('/(tabs)');
+      router.replace("/Home")
     } catch (err) {
       if (err instanceof z.ZodError) {
 

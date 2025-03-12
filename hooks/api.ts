@@ -145,3 +145,73 @@ export function useVerifyOTP() {
     },
   });
 }
+
+
+export function useDeposit() {
+  return useMutation({
+    mutationFn: async ({ mobile, amount, utr }: { mobile: string; amount: number; utr: string }) => {
+      try {
+        const response = await fetch(`${API_URL}/club/rummy-deposit/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mobile, amount, utr }),
+        });
+
+        if (!response.ok) {
+          let errorMessage = 'Deposit failed';
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (error) {
+            console.error('Error parsing error response:', error);
+          }
+          throw new Error(errorMessage);
+        }
+
+        return response.json();
+      } catch (error) {
+        console.error('Deposit mutation error:', error);
+        throw error;
+      }
+    },
+    onError: (error) => {
+      console.error('Mutation error:', error);
+    },
+    onSuccess: (data) => {
+      console.log('Deposit successful:', data);
+    },
+  });
+}
+
+
+
+
+
+export function useGetDeposit(mobile: string) {
+  return useQuery({
+    queryKey: ['deposit', mobile], 
+    queryFn: async () => {
+      if (!mobile) throw new Error('Mobile number is required');
+
+      const response = await fetch(`${API_URL}/club/rummy-deposit-get/?mobile=${mobile}`);
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to fetch deposit';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (error) {
+          console.error('Error parsing error response:', error);
+        }
+        throw new Error(errorMessage);
+      }
+
+      return response.json();
+    },
+    enabled: !!mobile,
+    retry: 2, 
+    staleTime: 5 * 60 * 1000,
+  });
+}

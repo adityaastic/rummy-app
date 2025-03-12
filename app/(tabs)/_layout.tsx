@@ -18,7 +18,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="Home"
         options={{
           title: 'Home',
           tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
@@ -36,24 +36,24 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ size, color }) => <Settings size={size} color={color} />,
-        }}       
+        }}
       />
-       <Tabs.Screen
+      <Tabs.Screen
         name="Wallet"
         options={{
           title: 'Wallet',
           tabBarIcon: ({ size, color }) => <Wallet size={size} color={color} />,
         }}
       />
-    <Tabs.Screen
-  name="RummyGame"
-  options={{
-    title: 'Rummy',
-    tabBarIcon: ({ size, color }) => <RummyIcon size={size} color={color} />,
-  }}
-/>
+      <Tabs.Screen
+        name="RummyGame"
+        options={{
+          title: 'Rummy',
+          tabBarIcon: ({ size, color }) => <RummyIcon size={size} color={color} />,
+        }}
+      />
 
-      
+
     </Tabs>
   );
 }
