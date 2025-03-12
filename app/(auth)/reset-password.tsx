@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { z } from 'zod';
 import * as Location from 'expo-location';
 import { Lock, KeyRound } from 'lucide-react-native';
+import ComLogo from '@/assets/images/com-logo.svg';
 
 const resetPasswordSchema = z.object({
   mobile: z.string().min(10).max(10),
@@ -126,13 +127,19 @@ export default function ResetPassword() {
   };
 
   return (
+    
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Reset MPIN</Text>
-        <Text style={styles.subtitle}>
-          Enter the OTP sent to your mobile number and set a new MPIN
-        </Text>
-      </View>
+                <Text style={styles.title}>Welcome To BGM Game!</Text>
+          
+                <View style={[styles.logoContainer, { marginTop: 30 }]}>
+                      <ComLogo width={150} height={150} />
+                    </View>
+          
+                <Text style={[styles.signupText,{ marginBottom: 30 }]}>Reset MPIN</Text>
+
+      <Text style={styles.subtitle}>
+        Enter the OTP sent to your mobile and set a new MPIN
+      </Text>
 
       <View style={styles.form}>
         <View style={styles.inputContainer}>
@@ -191,34 +198,55 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
-  },
-  header: {
-    marginTop: 60,
-    marginBottom: 40,
+    backgroundColor: '#e6f2e6',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
-    color: '#1a1a1a',
+    color: '#ffffff',
+    backgroundColor: '#04240c',
+    width: '100%',
+    textAlign: 'center',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
-    lineHeight: 24,
+    marginVertical: 20,
+    textAlign: 'center',
+  },
+  logoContainer: {
+    marginVertical: 20,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#04240c',
+    borderRadius: 40,
+  },
+  signupText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#04240c',
+    marginBottom: 10,
   },
   form: {
-    gap: 20,
+    width: '100%',
+    alignItems: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#e1e1e1',
+    borderColor: '#004d00',
     borderRadius: 12,
     paddingHorizontal: 16,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#fff',
+    width: '90%',
+    marginBottom: 10,
   },
   inputIcon: {
     marginRight: 12,
@@ -230,14 +258,12 @@ const styles = StyleSheet.create({
     color: '#1a1a1a',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#05791e',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
+    width: '90%',
     marginTop: 8,
-  },
-  buttonDisabled: {
-    opacity: 0.7,
   },
   buttonText: {
     color: '#fff',
@@ -247,21 +273,15 @@ const styles = StyleSheet.create({
   error: {
     color: '#ff3b30',
     fontSize: 14,
-    marginTop: -8,
+    marginBottom: 8,
   },
   resendButton: {
-    alignItems: 'center',
     padding: 12,
-  },
-  resendButtonDisabled: {
-    opacity: 0.5,
+    marginTop: 10,
   },
   resendText: {
-    color: '#007AFF',
+    color: '#004d00',
     fontSize: 14,
     fontWeight: '600',
-  },
-  resendTextDisabled: {
-    color: '#999',
   },
 });
