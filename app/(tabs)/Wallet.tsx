@@ -67,7 +67,19 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
           justifyContent: 'center',
           marginBottom: 24
         }}>
-<QrCode size={200} style={{ color: '#333' }} />
+{/* <QrCode size={200} style={{ color: '#333' }} /> */}
+
+<div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: 24
+        }}>
+          <img 
+            src="https://bgmgamemedia.s3.amazonaws.com/qrcodes/2670180A_QRCode_3.pdf_and_3_more_pages_-_Personal_-_Microsoft_Edge_1_27_2025_6_10_21_PM.png" 
+            alt="QR Code"
+            style={{ width: 200, height: 200, objectFit: 'cover' }} 
+          />
+           </div>
 </div>
  
         <form onSubmit={handleSubmit}>

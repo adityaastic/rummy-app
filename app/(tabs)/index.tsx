@@ -1,15 +1,23 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Linking } from 'react-native';
 import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Rummy</Text>
+      <Text style={styles.title}>Welcome to BGM GAME</Text>
+      
       <Link href="/lobby" asChild>
         <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Join Game</Text>
+          <Text style={styles.buttonText}>Play Rummy</Text>
         </Pressable>
       </Link>
+
+      <Pressable 
+        style={[styles.button, styles.numberGameButton]} 
+        onPress={() => Linking.openURL('https://thebgmgame.com/')}
+      >
+        <Text style={styles.buttonText}>Play Number Game</Text>
+      </Pressable>
     </View>
   );
 }
@@ -22,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f4f5',
   },
   title: {
-    fontSize: 32,
+    fontSize: 23,
     fontWeight: 'bold',
     marginBottom: 24,
     color: '#18181b',
@@ -40,6 +48,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    marginTop: 12,
+  },
+  numberGameButton: {
+    backgroundColor: '#2563eb', // Blue color for differentiation
   },
   buttonText: {
     color: '#ffffff',
