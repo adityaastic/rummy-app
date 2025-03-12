@@ -207,7 +207,6 @@
 
 
 
-
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Link, router } from 'expo-router';
@@ -216,6 +215,10 @@ import * as SecureStore from 'expo-secure-store';
 import { useAuth } from '@/hooks/useAuth';
 import { Phone, Lock } from 'lucide-react-native';
 import { useLogin } from '@/hooks/api';
+import ComLogo from '@/assets/images/com-logo.svg';  // Adjust the path if necessary
+ // Adjust the path based on your folder structure
+
+
 
 const loginSchema = z.object({
   mobile: z.string().min(10).max(10),
@@ -238,47 +241,46 @@ export default function Login() {
 
       const data = await loginMutation.mutateAsync({ mobile, mpin });
 
-      console.log("API Response:", data);
-      console.log("Token Type:", typeof data.jwt_token);
-      console.log("Token Value:", data.jwt_token);
-
-      // Ensure the token is a valid string
       if (!data.jwt_token || typeof data.jwt_token !== 'string') {
         throw new Error('Invalid or missing token received from the server');
       }
 
-      // Check if SecureStore is available before setting token
       if (await SecureStore.isAvailableAsync()) {
         await SecureStore.setItemAsync('authToken', data.jwt_token);
-      } else {
-        console.warn("SecureStore is not available on this device.");
       }
 
       await signIn(data.jwt_token);
-
-      // Navigate to home
       router.replace('/(tabs)');
     } catch (err) {
       if (err instanceof z.ZodError) {
+
         setError('Please check your mobile number and MPIN');
+
       } else if (err instanceof Error) {
+
         setError(err.message);
+
       } else {
+
         setError('An unexpected error occurred');
+
       }
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Welcome Back</Text>
-        <Text style={styles.subtitle}>Login to your account</Text>
-      </View>
+      <Text style={styles.title}>Welcome To BGM Game!</Text>
+
+      <View style={[styles.logoContainer, { marginTop: 30 }]}>
+      <ComLogo width={150} height={150} />
+    </View>
+
+      <Text style={[styles.loginText ,{ marginBottom: 30 }]}>LOGIN</Text>
 
       <View style={styles.form}>
         <View style={styles.inputContainer}>
-          <Phone size={20} color="#666" style={styles.inputIcon} />
+          <Phone size={20} color="#04240c" style={styles.inputIcon} />
           <TextInput
             style={styles.input}
             placeholder="Mobile Number"
@@ -290,7 +292,7 @@ export default function Login() {
         </View>
 
         <View style={styles.inputContainer}>
-          <Lock size={20} color="#666" style={styles.inputIcon} />
+          <Lock size={20} color="#04240c" style={styles.inputIcon} />
           <TextInput
             style={styles.input}
             placeholder="MPIN"
@@ -301,34 +303,23 @@ export default function Login() {
           />
         </View>
 
-        <TouchableOpacity
-          style={styles.forgotButton}
-          onPress={() => router.push('/forgot-password')}
-        >
-          <Text style={styles.forgotButtonText}>Forgot MPIN?</Text>
+        <TouchableOpacity style={styles.forgotButton} onPress={() => router.push('/forgot-password')}>
+          <Text style={styles.forgotButtonText}>Forgotten account?</Text>
         </TouchableOpacity>
 
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <TouchableOpacity
-          style={[styles.button, loginMutation.isPending && styles.buttonDisabled]}
-          onPress={handleLogin}
-          disabled={loginMutation.isPending}
-        >
-          {loginMutation.isPending ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Login</Text>
-          )}
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loginMutation.isPending}>
+          {loginMutation.isPending ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Login</Text>}
         </TouchableOpacity>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? </Text>
-          <Link href="/signup" style={styles.link}>
-            Sign up
-          </Link>
-        </View>
+        <Link href="/signup" style={styles.createAccount}>Create New Account</Link>
       </View>
+
+      {/* <View style={styles.footer}>
+        <Text style={styles.footerText}>About Us | Privacy Policy | Refund Policy</Text>
+        <Text style={styles.footerText}>Help | Cancellation Policy | Referral Policy | Withdraw Policy</Text>
+      </View> */}
     </View>
   );
 }
@@ -337,92 +328,98 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
-  },
-  header: {
-    marginTop: 60,
-    marginBottom: 40,
+    backgroundColor: '#e6f2e6', // Light greenish background
+    alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
-    color: '#1a1a1a',
+    color: '#ffffff',
+    backgroundColor: '#04240c',
+    width: '100%',
+    textAlign: 'center',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
+  logoContainer: {
+    marginVertical: 20,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#04240c',
+    borderRadius: 40,
+  },
+  loginText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#04240c',
+    marginBottom: 10,
   },
   form: {
-    gap: 20,
+    width: '100%',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#e1e1e1',
+    backgroundColor: '#ffffff',
     borderRadius: 12,
     paddingHorizontal: 16,
-    backgroundColor: '#f8f8f8',
+    borderColor: '#04240c',
+    borderWidth: 1,
+    marginBottom: 10,
   },
   inputIcon: {
-    marginRight: 12,
+    marginRight: 10,
   },
   input: {
     flex: 1,
     height: 50,
     fontSize: 16,
-    color: '#1a1a1a',
+    color: '#04240c',
+  },
+  forgotButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 15,
+  },
+  forgotButtonText: {
+    color: '#04240c',
+    fontSize: 14,
+    fontWeight: '500',
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#05791e',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
-  },
-  buttonDisabled: {
-    opacity: 0.7,
+    width: '100%',
+    marginBottom: 10,
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
+  createAccount: {
+    color: '#04240c',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
   error: {
     color: '#ff3b30',
     fontSize: 14,
-    marginTop: -8,
+    marginBottom: 10,
+    textAlign: 'center',
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 16,
+    marginTop: 20,
+    alignItems: 'center',
   },
   footerText: {
-    color: '#666',
-  },
-  link: {
-    color: '#007AFF',
-    fontWeight: '600',
-  },
-  forgotButton: {
-    alignSelf: 'flex-end',
-    marginTop: -8,
-  },
-  forgotButtonText: {
-    color: '#007AFF',
-    fontSize: 14,
-    fontWeight: '500',
+    color: '#04240c',
+    fontSize: 12,
+    textAlign: 'center',
   },
 });
-
-
-
-
-
-
-
-
-
-

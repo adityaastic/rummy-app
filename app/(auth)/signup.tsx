@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Link, router } from 'expo-router';
 import { z } from 'zod';
+import { Phone, Mail } from 'lucide-react-native';
+import ComLogo from '@/assets/images/com-logo.svg';
 
 const signupSchema = z.object({
   mobile: z.string().min(10).max(10),
@@ -26,14 +28,8 @@ export default function Signup() {
 
       const response = await fetch('http://127.0.0.1:3500/club/signup/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          mobile,
-          email,
-          referred_by: referralCode || undefined,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile, email, referred_by: referralCode || undefined }),
       });
 
       const data = await response.json();
@@ -43,17 +39,20 @@ export default function Signup() {
       }
 
       // Navigate to OTP verification
-      router.push({
-        pathname: '/verify-otp',
-        params: { mobile, email },
-      });
+      router.push({ pathname: '/verify-otp', params: { mobile, email } });
     } catch (err) {
       if (err instanceof z.ZodError) {
+
         setError('Please check your mobile number and email');
+
       } else if (err instanceof Error) {
+
         setError(err.message);
+
       } else {
+
         setError('An unexpected error occurred');
+
       }
     } finally {
       setLoading(false);
@@ -62,57 +61,62 @@ export default function Signup() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-      <Text style={styles.subtitle}>Sign up to get started</Text>
+      <Text style={styles.title}>Welcome To BGM Game!</Text>
+
+      <View style={[styles.logoContainer, { marginTop: 30 }]}>
+            <ComLogo width={150} height={150} />
+          </View>
+
+      <Text style={[styles.signupText,{ marginBottom: 30 }]}>SIGN UP</Text>
 
       <View style={styles.form}>
-        <TextInput
-          style={styles.input}
-          placeholder="Mobile Number"
-          keyboardType="phone-pad"
-          value={mobile}
-          onChangeText={setMobile}
-          maxLength={10}
-        />
+        <View style={styles.inputContainer}>
+          <Phone size={20} color="#04240c" style={styles.inputIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Mobile Number"
+            keyboardType="phone-pad"
+            value={mobile}
+            onChangeText={setMobile}
+            maxLength={10}
+          />
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-        />
+        <View style={styles.inputContainer}>
+          <Mail size={20} color="#04240c" style={styles.inputIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Referral Code (Optional)"
-          autoCapitalize="none"
-          value={referralCode}
-          onChangeText={setReferralCode}
-        />
+        <View style={styles.inputContainer}>
+  <TextInput
+    style={[styles.input, { flex: 1 }]}
+    placeholder="Referral Code (Optional)"
+    autoCapitalize="none"
+    value={referralCode}
+    onChangeText={setReferralCode}
+  />
+</View>
 
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSignup}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Sign Up</Text>
-          )}
+        <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading}>
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Sign Up</Text>}
         </TouchableOpacity>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Already have an account? </Text>
-          <Link href="/login" style={styles.link}>
-            Login
-          </Link>
-        </View>
+        <Link href="/login" style={styles.createAccount}>Already have an account? Login</Link>
       </View>
+
+      {/* <View style={styles.footer}>
+        <Text style={styles.footerText}>About Us | Privacy Policy | Refund Policy</Text>
+        <Text style={styles.footerText}>Help | Cancellation Policy | Referral Policy | Withdraw Policy</Text>
+      </View> */}
     </View>
   );
 }
@@ -121,54 +125,91 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+    backgroundColor: '#e6f2e6',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    color: '#ffffff',
+    backgroundColor: '#04240c',
+    width: '100%',
+    textAlign: 'center',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 32,
+  logoContainer: {
+    marginVertical: 20,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#04240c',
+    borderRadius: 40,
+  },
+  signupText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#04240c',
+    marginBottom: 10,
   },
   form: {
-    gap: 16,
+    
+    width: '100%',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    borderColor: '#04240c',
+    borderWidth: 1,
+    marginBottom: 10,
+  },
+  inputIcon: {
+    marginRight: 10,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
+    flex: 1,
+    height: 50,
     fontSize: 16,
+    color: '#04240c',
+    
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#05791e',
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
+  createAccount: {
+    color: '#04240c',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
   error: {
     color: '#ff3b30',
     fontSize: 14,
+    marginBottom: 10,
+    textAlign: 'center',
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 16,
+    marginTop: 20,
+    alignItems: 'center',
   },
   footerText: {
-    color: '#666',
-  },
-  link: {
-    color: '#007AFF',
-    fontWeight: '600',
+    color: '#04240c',
+    fontSize: 12,
+    textAlign: 'center',
   },
 });
