@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { z } from 'zod';
-import * as Location from 'expo-location';
-import * as SecureStore from 'expo-secure-store';
 import { useAuth } from '@/hooks/useAuth';
+import ComLogo from '@/assets/images/com-logo.svg';
 
 const verifySchema = z.object({
   mobile: z.string().min(10).max(10),
@@ -34,18 +33,13 @@ export default function VerifyOTP() {
       setError('');
       setLoading(true);
 
-      verifySchema.parse({ mobile, email, otp, mpin })
+      verifySchema.parse({ mobile, email, otp, mpin });
       const response = await fetch('http://127.0.0.1:3500/club/verify-otp/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          mobile,
-          email,
-          otp,
-          mpin
-        }),
+        body: JSON.stringify({ mobile, email, otp, mpin }),
       });
 
       const data = await response.json();
@@ -68,8 +62,6 @@ export default function VerifyOTP() {
     }
   };
 
-
-
   const handleResendOTP = async () => {
     try {
       setError('');
@@ -78,10 +70,7 @@ export default function VerifyOTP() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          mobile,
-          email,
-        }),
+        body: JSON.stringify({ mobile, email }),
       });
 
       if (!response.ok) {
@@ -95,10 +84,18 @@ export default function VerifyOTP() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Verify OTP</Text>
+    
+      <View style={styles.container}>
+            <Text style={styles.title}>Welcome To BGM Game!</Text>
+      
+            <View style={[styles.logoContainer, { marginTop: 30 }]}>
+                  <ComLogo width={150} height={150} />
+                </View>
+      
+            <Text style={[styles.signupText,{ marginBottom: 30 }]}>Verify OTP</Text>
       <Text style={styles.subtitle}>Enter the OTP sent to your mobile</Text>
 
+      {/* Input Fields */}
       <View style={styles.form}>
         <TextInput
           style={styles.input}
@@ -121,7 +118,7 @@ export default function VerifyOTP() {
         {error ? <Text style={styles.error}>{error}</Text> : null}
 
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, loading && styles.buttonDisabled]}
           onPress={handleVerify}
           disabled={loading}
         >
@@ -142,6 +139,12 @@ export default function VerifyOTP() {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>About Us | Privacy Policy | Refund Policy</Text>
+        <Text style={styles.footerText}>Help | Cancellation Policy | Referral Policy | Withdraw Policy</Text>
+      </View>
     </View>
   );
 }
@@ -150,34 +153,82 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+    backgroundColor: '#e6f2e6',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    color: '#ffffff',
+    backgroundColor: '#04240c',
+    width: '100%',
+    textAlign: 'center',
+    paddingVertical: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
+  header: {
+    width: '100%',
+    backgroundColor: '#004d00',
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  logoContainer: {
+    marginVertical: 20,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#04240c',
+    borderRadius: 40,
+  },
+  signupText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#04240c',
+    marginBottom: 10,
+  },
+  // title: {
+  //   fontSize: 24,
+  //   fontWeight: 'bold',
+  //   color: '#1a1a1a',
+  //   marginTop: 20,
+  // },
   subtitle: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 32,
+    marginBottom: 20,
   },
   form: {
-    gap: 16,
+    width: '100%',
+    alignItems: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
+    borderColor: '#004d00',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#fff',
     fontSize: 16,
+    height: 50,
+    width: '90%',
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#05791e',
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
+    width: '90%',
+    marginTop: 8,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   buttonText: {
     color: '#fff',
@@ -187,20 +238,30 @@ const styles = StyleSheet.create({
   error: {
     color: '#ff3b30',
     fontSize: 14,
+    marginBottom: 8,
   },
   resendButton: {
-    alignItems: 'center',
     padding: 12,
+    marginTop: 10,
   },
   resendButtonDisabled: {
     opacity: 0.5,
   },
   resendText: {
-    color: '#007AFF',
+    color: '#004d00',
     fontSize: 14,
     fontWeight: '600',
   },
   resendTextDisabled: {
     color: '#999',
+  },
+  footer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#004d00',
+    marginVertical: 2,
   },
 });
