@@ -1,5 +1,7 @@
 import { Tabs } from 'expo-router';
-import { Chrome as Home, Users, Settings } from 'lucide-react-native';
+// import { Chrome as Home, Users, Settings, Wallet } from 'lucide-react-native';
+import { Chrome as Home, Users, Settings, Wallet } from 'lucide-react-native';
+
 
 export default function TabLayout() {
   return (
@@ -32,8 +34,16 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ size, color }) => <Settings size={size} color={color} />,
+        }}       
+      />
+       <Tabs.Screen
+        name="Wallet"
+        options={{
+          title: 'Wallet',
+          tabBarIcon: ({ size, color }) => <Wallet size={size} color={color} />,
         }}
       />
+      
     </Tabs>
   );
 }
