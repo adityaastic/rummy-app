@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'expo-router';
 import { Redirect } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home() {
   const [userMobile, setUserMobile] = useState('');
@@ -45,10 +46,13 @@ export default function Home() {
   };
   
   useEffect(() => {
-    const mobile = localStorage.getItem('mobile');
-    if (mobile) {
-      setUserMobile(mobile);
-    }
+    const getMobile = async () => {
+      const mobile = await AsyncStorage.getItem('mobile');
+      if (mobile) {
+        setUserMobile(mobile);
+      }
+    };
+    getMobile();
     
     generateSparkles();
     

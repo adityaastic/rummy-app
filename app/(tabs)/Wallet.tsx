@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, FlatList, Image, StyleSheet } from 'react-native';
 import { useDeposit, useGetDeposit, useGetWallet } from '../../hooks/api';
 import { X } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,8 +17,11 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
   const [userMobile, setUserMobile] = useState<string>('');
 
   useEffect(() => {
-    const mobile = localStorage.getItem('mobile');
-    if (mobile) setUserMobile(mobile);
+    const getMobile = async () => {
+      const mobile = await AsyncStorage.getItem('mobile'); // Use AsyncStorage
+      if (mobile) setUserMobile(mobile);
+    };
+    getMobile();
   }, []);
 
   if (!isOpen) return null;
@@ -68,9 +73,12 @@ const Wallet = () => {
   const [selectedAmount, setSelectedAmount] = useState<number>(0);
   const [userMobile, setUserMobile] = useState<string>('');
 
-  useEffect(() => {
-    const mobile = localStorage.getItem('mobile');
-    if (mobile) setUserMobile(mobile);
+   useEffect(() => {
+    const getMobile = async () => {
+      const mobile = await AsyncStorage.getItem('mobile'); // Use AsyncStorage
+      if (mobile) setUserMobile(mobile);
+    };
+    getMobile();
   }, []);
 
   const { data, isLoading } = useGetDeposit(userMobile);

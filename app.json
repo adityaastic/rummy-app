@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "bolt-expo-nativewind",
+    "name": "BGM Rummy",
     "slug": "bolt-expo-nativewind",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/com-logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,7 +14,7 @@
     "web": {
       "bundler": "metro",
       "output": "single",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/com-logo.png"
     },
     "plugins": [
       "expo-router",
@@ -22,6 +22,20 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7aa8f8c1-a5e2-4ed5-b134-e9c1520613df"
+      }
+    },
+    "android": {
+      "package": "com.aditya_astic.boltexponativewind",
+      "compileSdkVersion": 34, 
+      "targetSdkVersion": 34,  
+      "versionCode": 1          
     }
   }
 }

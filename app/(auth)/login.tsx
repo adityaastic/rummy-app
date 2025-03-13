@@ -216,7 +216,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Phone, Lock , Eye, EyeOff} from 'lucide-react-native';
 import { useLogin } from '@/hooks/api';
 import ComLogo from '@/assets/images/com-logo.svg';  // Adjust the path if necessary
- // Adjust the path based on your folder structure
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -253,7 +253,8 @@ export default function Login() {
         throw new Error('Invalid or missing token received from the server');
       }
       
-      await localStorage.setItem('mobile', data?.mobile);
+      // await localStorage.setItem('mobile', data?.mobile);
+      await AsyncStorage.setItem('mobile', data.mobile);
 
       if (await SecureStore.isAvailableAsync()) {
         await SecureStore.setItemAsync('authToken', data?.jwt_token);
@@ -306,17 +307,6 @@ export default function Login() {
           />
         </View>
 
-        {/* <View style={styles.inputContainer}>
-          <Lock size={20} color="#04240c" style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="MPIN"
-            secureTextEntry
-            value={mpin}
-            onChangeText={setMpin}
-            maxLength={6}
-          />
-        </View> */}
 
 <View style={styles.inputContainer}>
   <Lock size={20} color="#04240c" style={styles.inputIcon} />
