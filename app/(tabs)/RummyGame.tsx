@@ -246,7 +246,7 @@ export default function RummyGame() {
       <View style={styles.container}>
         {!gameStarted ? (
           <View style={styles.startContainer}>
-            <Text style={styles.gameTitle}>Rummy</Text>
+            {/* <Text style={styles.gameTitle}>Rummy</Text> */}
             <TouchableOpacity style={styles.startButton} onPress={dealCards}>
               <Text style={styles.startButtonText}>Start Game</Text>
             </TouchableOpacity>
@@ -353,7 +353,7 @@ export default function RummyGame() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2c8a3d',
+    backgroundColor: '#0f172a',
     padding: 10,
   },
   startContainer: {

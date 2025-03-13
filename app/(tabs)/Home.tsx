@@ -28,13 +28,6 @@ export default function Home() {
           <Text style={styles.buttonText}>Play Rummy</Text>
         </Pressable>
       </Link>
-
-      <Pressable 
-        style={[styles.button, styles.numberGameButton]} 
-        onPress={() => Linking.openURL('https://thebgmgame.com/')}
-      >
-        <Text style={styles.buttonText}>Play Number Game</Text>
-      </Pressable>
     </View>
   );
 }
@@ -44,13 +37,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f4f4f5',
+    backgroundColor: '#0f172a',
   },
   title: {
     fontSize: 23,
     fontWeight: 'bold',
     marginBottom: 24,
-    color: '#18181b',
+    color: '#ffffff',
   },
   button: {
     backgroundColor: '#e11d48',
@@ -76,3 +69,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
