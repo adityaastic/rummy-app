@@ -26,7 +26,7 @@ export default function Signup() {
       // Validate input
       signupSchema.parse({ mobile, email, referred_by: referralCode });
 
-      const response = await fetch('http://127.0.0.1:3500/club/signup/', {
+      const response = await fetch('https://new.bgmgameresult.in/club/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobile, email, referred_by: referralCode || undefined }),

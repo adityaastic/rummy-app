@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import * as Location from 'expo-location';
 
-const API_URL = 'http://127.0.0.1:3500';
+const API_URL = 'https://new.bgmgameresult.in';
 
 async function getLocation() {
   const { status } = await Location.requestForegroundPermissionsAsync();

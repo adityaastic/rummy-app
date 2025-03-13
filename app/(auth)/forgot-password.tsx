@@ -40,7 +40,7 @@ export default function ForgotPassword() {
         ? `${address[0].street}, ${address[0].city}, ${address[0].region}, ${address[0].postalCode}, ${address[0].country}`
         : 'Unknown location';
 
-      const response = await fetch('http://127.0.0.1:3500/club/forgot-password/', {
+      const response = await fetch('https://new.bgmgameresult.in/club/forgot-password/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

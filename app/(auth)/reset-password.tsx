@@ -5,6 +5,8 @@ import { z } from 'zod';
 import * as Location from 'expo-location';
 import { Lock, KeyRound } from 'lucide-react-native';
 import ComLogo from '@/assets/images/com-logo.svg';
+import { Eye, EyeOff } from 'lucide-react-native'; // Add this import
+
 
 const resetPasswordSchema = z.object({
   mobile: z.string().min(10).max(10),
@@ -19,6 +21,8 @@ export default function ResetPassword() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(30);
+  const [mpinVisible, setMpinVisible] = useState(false); // Add this state
+
 
   useEffect(() => {
     if (countdown > 0) {
@@ -46,7 +50,7 @@ export default function ResetPassword() {
         `${address[0].street}, ${address[0].city}, ${address[0].region}, ${address[0].postalCode}, ${address[0].country}` :
         'Unknown location';
 
-      const response = await fetch('http://127.0.0.1:3500/club/forgot-password/', {
+      const response = await fetch('https://new.bgmgameresult.in/club/forgot-password/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +96,7 @@ export default function ResetPassword() {
         `${address[0].street}, ${address[0].city}, ${address[0].region}, ${address[0].postalCode}, ${address[0].country}` :
         'Unknown location';
 
-      const response = await fetch('http://127.0.0.1:3500/club/verify-otp/', {
+      const response = await fetch('https://new.bgmgameresult.in/club/verify-otp/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,6 +156,13 @@ export default function ResetPassword() {
             onChangeText={setOtp}
             maxLength={6}
           />
+            <TouchableOpacity onPress={() => setMpinVisible(!mpinVisible)}>
+      {mpinVisible ? (
+       <Eye size={20} color="#04240c" />
+      ) : (
+        <EyeOff size={20} color="#04240c" /> 
+      )}
+    </TouchableOpacity>
         </View>
 
         <View style={styles.inputContainer}>
@@ -159,7 +170,7 @@ export default function ResetPassword() {
           <TextInput
             style={styles.input}
             placeholder="Set New MPIN"
-            secureTextEntry
+            secureTextEntry={!mpinVisible} 
             value={mpin}
             onChangeText={setMpin}
             maxLength={6}

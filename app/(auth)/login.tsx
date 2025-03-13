@@ -213,7 +213,7 @@ import { Link, router } from 'expo-router';
 import { z } from 'zod';
 import * as SecureStore from 'expo-secure-store';
 import { useAuth } from '@/hooks/useAuth';
-import { Phone, Lock } from 'lucide-react-native';
+import { Phone, Lock , Eye, EyeOff} from 'lucide-react-native';
 import { useLogin } from '@/hooks/api';
 import ComLogo from '@/assets/images/com-logo.svg';  // Adjust the path if necessary
  // Adjust the path based on your folder structure
@@ -229,6 +229,8 @@ export default function Login() {
   const [mobile, setMobile] = useState('');
   const [mpin, setMpin] = useState('');
   const [error, setError] = useState('');
+  const [mpinVisible, setMpinVisible] = useState(false); // Add this state
+
   const { signIn } = useAuth();
   const loginMutation = useLogin();
 
@@ -304,7 +306,7 @@ export default function Login() {
           />
         </View>
 
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Lock size={20} color="#04240c" style={styles.inputIcon} />
           <TextInput
             style={styles.input}
@@ -314,7 +316,27 @@ export default function Login() {
             onChangeText={setMpin}
             maxLength={6}
           />
-        </View>
+        </View> */}
+
+<View style={styles.inputContainer}>
+  <Lock size={20} color="#04240c" style={styles.inputIcon} />
+  <TextInput
+    style={styles.input}
+    placeholder="MPIN"
+    secureTextEntry={!mpinVisible} // Toggle visibility based on state
+    value={mpin}
+    onChangeText={setMpin}
+    maxLength={6}
+  />
+  <TouchableOpacity onPress={() => setMpinVisible(!mpinVisible)}>
+    {mpinVisible ? (
+       <Eye size={20} color="#04240c" />
+    ) : (
+      <EyeOff size={20} color="#04240c" />
+    )}
+  </TouchableOpacity>
+</View>
+
 
         <TouchableOpacity style={styles.forgotButton} onPress={() => router.push('/forgot-password')}>
           <Text style={styles.forgotButtonText}>Forgotten account?</Text>

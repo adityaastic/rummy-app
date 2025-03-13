@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Eye, EyeOff } from 'lucide-react-native';
 import { z } from 'zod';
 import { useAuth } from '@/hooks/useAuth';
 import ComLogo from '@/assets/images/com-logo.svg';
@@ -34,7 +35,7 @@ export default function VerifyOTP() {
       setLoading(true);
 
       verifySchema.parse({ mobile, email, otp, mpin });
-      const response = await fetch('http://127.0.0.1:3500/club/verify-otp/', {
+      const response = await fetch('https://new.bgmgameresult.in/club/verify-otp/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ export default function VerifyOTP() {
   const handleResendOTP = async () => {
     try {
       setError('');
-      const response = await fetch('http://127.0.0.1:3500/club/signup/', {
+      const response = await fetch('https://new.bgmgameresult.in/club/signup/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
