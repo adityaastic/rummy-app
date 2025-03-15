@@ -207,7 +207,7 @@
 
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Link, router } from 'expo-router';
 import { z } from 'zod';
@@ -231,7 +231,8 @@ export default function Login() {
   const [error, setError] = useState('');
   const [mpinVisible, setMpinVisible] = useState(false); // Add this state
 
-  const { signIn } = useAuth();
+  const { signIn,token } = useAuth();
+
   const loginMutation = useLogin();
 
   const handleLogin = async () => {
@@ -264,9 +265,9 @@ export default function Login() {
 
       await signIn(data.jwt_token);
 
-      // Navigate to home
-      // router.replace('/(tabs)');
-      router.replace("/Home")
+  
+      // console.log("Navigating to /Home...");
+      // router.replace("/Home")
     } catch (err) {
       if (err instanceof z.ZodError) {
 

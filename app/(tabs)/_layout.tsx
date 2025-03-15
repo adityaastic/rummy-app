@@ -18,7 +18,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="Home"
+        name="index"
         options={{
           title: 'Home',
           tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
@@ -46,14 +46,7 @@ export default function TabLayout() {
         }
       }
       />
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Logout',
-          tabBarIcon: ({ size, color }) => <LogOut size={size} color={color} />,
-        }
-      }
-      />
+     
     </Tabs>
   );
 }

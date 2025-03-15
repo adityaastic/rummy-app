@@ -4,38 +4,50 @@
     "slug": "bolt-expo-nativewind",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/com-logo.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/com-logo.png", 
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": true, 
+    "splash": {
+      "image": "./assets/images/com-logo.png", 
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true, 
+      "bundleIdentifier": "com.aditya_astic.boltexponativewind" 
+    },
+    "android": {
+      "package": "com.aditya_astic.boltexponativewind",
+      "versionCode": 1, 
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/com-logo.png", 
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [] 
     },
     "web": {
       "bundler": "metro",
       "output": "single",
-      "favicon": "./assets/images/com-logo.png"
+      "favicon": "./assets/images/favicon.png" 
     },
     "plugins": [
-      "expo-router",
-      "expo-secure-store"
+      "expo-router", 
+      "expo-secure-store" 
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true 
     },
     "extra": {
       "router": {
-        "origin": false
+        "origin": false 
       },
       "eas": {
-        "projectId": "7aa8f8c1-a5e2-4ed5-b134-e9c1520613df"
+        "projectId": "7aa8f8c1-a5e2-4ed5-b134-e9c1520613df" 
       }
-    },
-    "android": {
-      "package": "com.aditya_astic.boltexponativewind",
-      "compileSdkVersion": 34, 
-      "targetSdkVersion": 34,  
-      "versionCode": 1          
     }
   }
 }
