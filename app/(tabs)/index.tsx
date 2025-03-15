@@ -119,13 +119,13 @@ export default function Home() {
             toValue: 1,
             duration: 800,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
+            useNativeDriver: true, // Changed to true
           }),
           Animated.timing(buttonGlow, {
             toValue: 0.3,
             duration: 800,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
+            useNativeDriver: true, // Changed to true
           })
         ])
       ])
@@ -227,45 +227,45 @@ export default function Home() {
     ).start();
     
     // Background light animations
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(bgLight1, {
-          toValue: 1,
-          duration: 1500,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: false,
-        }),
-        Animated.timing(bgLight1, {
-          toValue: 0,
-          duration: 1500,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: false,
-        })
-      ])
-    ).start();
+Animated.loop(
+  Animated.sequence([
+    Animated.timing(bgLight1, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: true, // Changed to true
+    }),
+    Animated.timing(bgLight1, {
+      toValue: 0,
+      duration: 1500,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: true, // Changed to true
+    })
+  ])
+).start();
     
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(bgLight2, {
-          toValue: 1,
-          duration: 2000,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: false,
-        }),
-        Animated.timing(bgLight2, {
-          toValue: 0,
-          duration: 2000,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: false,
-        })
-      ])
-    ).start();
+  Animated.loop(
+  Animated.sequence([
+    Animated.timing(bgLight2, {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: true, // Changed to true
+    }),
+    Animated.timing(bgLight2, {
+      toValue: 0,
+      duration: 2000,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: true, // Changed to true
+    })
+  ])
+).start();
     
   }, []);
 
-  if (!userMobile) {
-    return <Redirect href="/login" />;
-  }
+  // if (!userMobile) {
+  //   return <Redirect href="/login" />;
+  // }
 
   const shineTranslate = shine.interpolate({
     inputRange: [0, 1],
@@ -301,29 +301,25 @@ export default function Home() {
   return (
     <View style={styles.container}>
       {/* Dynamic background */}
-      <Animated.View style={[
-        styles.bgLight,
-        { 
-          backgroundColor: bgLight1.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['rgba(255, 0, 0, 0)', 'rgba(255, 0, 0, 0.15)']
-          }),
-          right: 0,
-          top: 0
-        }
-      ]} />
-      
-      <Animated.View style={[
-        styles.bgLight,
-        { 
-          backgroundColor: bgLight2.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['rgba(0, 0, 255, 0)', 'rgba(0, 0, 255, 0.15)']
-          }),
-          left: 0,
-          bottom: 0
-        }
-      ]} />
+     <Animated.View style={[
+  styles.bgLight,
+  { 
+    opacity: bgLight1, // Use opacity which works with native driver
+    backgroundColor: 'rgba(255, 0, 0, 0.15)', // Fixed color
+    right: 0,
+    top: 0
+  }
+]} />
+
+<Animated.View style={[
+  styles.bgLight,
+  { 
+    opacity: bgLight2, // Use opacity which works with native driver
+    backgroundColor: 'rgba(0, 0, 255, 0.15)', // Fixed color
+    left: 0,
+    bottom: 0
+  }
+]} />
       
       {/* Animated sparkles */}
       {sparkles.map(sparkle => (
@@ -466,36 +462,38 @@ export default function Home() {
       <View style={styles.buttonsContainer}>
         <Link href="/RummyGame" asChild>
           <Pressable>
-            <Animated.View 
-              style={[
-                styles.button, 
-                styles.rummyButton,
-                { 
-                  transform: [{ scale: buttonScale }],
-                  shadowOpacity: buttonGlow,
-                  shadowColor: '#FF0000',
-                  shadowRadius: 15
-                }
-              ]}
-            >
-              <LinearGradient
-                colors={['#FF416C', '#FF4B2B']}
-                style={styles.buttonGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              >
-                <Animated.View style={[
-                  styles.shine,
-                  {
-                    transform: [{ translateX: shineTranslate }]
-                  }
-                ]} />
-                <Text style={styles.buttonText}>PLAY RUMMY</Text>
-                <View style={styles.buttonIcon}>
-                  <Text style={styles.buttonIconText}>♦</Text>
-                </View>
-              </LinearGradient>
-            </Animated.View>
+         <Animated.View 
+  style={[
+    styles.button, 
+    styles.rummyButton,
+    { 
+      transform: [{ scale: buttonScale }],
+      // Remove shadowOpacity: buttonGlow since we can't animate it with native driver
+    }
+  ]}
+>
+  {/* Create an animated overlay to simulate glow */}
+  <Animated.View 
+    style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%', 
+      borderRadius: 30,
+      backgroundColor: '#FF0000',
+      opacity: buttonGlow, // This works with native driver
+    }} 
+  />
+  <LinearGradient
+    colors={['#FF416C', '#FF4B2B']}
+    style={styles.buttonGradient}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 0 }}
+  >
+      <Text style={styles.buttonText}>Instant Pay</Text>
+    {/* Rest of button content */}
+  </LinearGradient>
+</Animated.View>
+
           </Pressable>
         </Link>
 

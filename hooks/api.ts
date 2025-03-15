@@ -24,7 +24,7 @@ async function getLocation() {
 export function useLogin() {
   return useMutation({
     mutationFn: async ({ mobile, mpin }: { mobile: string; mpin: string }) => {
-      const locationString = await getLocation();
+   
       
       const response = await fetch(`${API_URL}/club/login/`, {
         method: 'POST',
@@ -34,7 +34,7 @@ export function useLogin() {
         body: JSON.stringify({
           mobile,
           mpin,
-          last_login_Location: locationString,
+      
         }),
       });
 
