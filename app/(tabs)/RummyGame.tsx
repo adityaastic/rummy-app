@@ -738,7 +738,7 @@ export default function RummyGame() {
         ]}
       >
         <LinearGradient
-          colors={isSelected ? ['#ffdf80', '#ffd700'] : ['#f8f8f8', '#e8e8e8']}
+         colors={isSelected ? ['#4cff96', '#134024'] : ['#f8f8f8', '#e8e8e8']}
           style={styles.cardGradient}
         >
           <Text style={[
@@ -756,7 +756,7 @@ export default function RummyGame() {
     <>
       <Stack.Screen options={{ 
         title: 'Royal Rummy', 
-        headerStyle: { backgroundColor: '#0f172a' },
+        headerStyle: { backgroundColor: '#064e3b' },  // Changed from '#0f172a' (dark blue)
         headerTitleStyle: { color: 'white', fontWeight: 'bold' },
         headerTintColor: 'white'
       }} />
@@ -766,10 +766,10 @@ export default function RummyGame() {
           source={{ uri: 'https://i.ibb.co/Y8SQZ3T/poker-table-background.jpg' }}
           style={styles.backgroundImage}
         >
-          <LinearGradient
-            colors={['rgba(0,0,0,0.7)', 'rgba(15,23,42,0.9)']}
-            style={styles.gradientOverlay}
-          >
+         <LinearGradient
+  colors={['#104818', 'rgb(10, 11, 10)']}  // Changed from blue to dark green
+  style={styles.gradientOverlay}
+>
             <View style={styles.startContainer}>
               <View style={styles.titleContainer}>
                 <Text style={styles.gameTitle}>ROYAL</Text>
@@ -788,7 +788,7 @@ export default function RummyGame() {
                   >
                     <Text style={[
                       styles.fanCardText, 
-                      {color: (suit === '♥' || suit === '♦') ? '#e32636' : '#1e3a8a'}
+                      {color: (suit === '♥' || suit === '♦') ? '#e32636' : '#064e3b'}
                     ]}>
                       {suit}
                     </Text>
@@ -802,7 +802,7 @@ export default function RummyGame() {
                 activeOpacity={0.8}
               >
                 <LinearGradient
-                  colors={['#3b82f6', '#1d4ed8']}
+                colors={['#7aba92', '#0c2209d4']} 
                   style={styles.gradientButton}
                 >
                   <Text style={styles.startButtonText}>START GAME</Text>
@@ -813,7 +813,7 @@ export default function RummyGame() {
         </ImageBackground>
       ) : (
         <LinearGradient
-          colors={['#0f172a', '#1e293b']}
+        colors={['#0f2a14', '#071611']}  
           style={styles.container}
         >
           {winner !== null ? (
@@ -842,7 +842,7 @@ export default function RummyGame() {
             <>
               <View style={styles.statusBar}>
                 <LinearGradient
-                  colors={['#3b82f6', '#1d4ed8']}
+                    colors={['#16a34a', '#15803d']}
                   style={styles.playerTurnBadge}
                 >
                   <Text style={styles.playerTurn}>Player {currentPlayer + 1}'s Turn</Text>
@@ -859,7 +859,7 @@ export default function RummyGame() {
                   {players[1]?.hand.map((_, index) => (
                     <View key={index} style={[styles.card, styles.cardBack]}>
                       <LinearGradient
-                        colors={['#1e40af', '#1e3a8a']}
+                        colors={['#064e3b', '#065f46']}
                         style={styles.cardGradient}
                       >
                         <Text style={styles.cardBackText}>🂠</Text>
@@ -878,7 +878,7 @@ export default function RummyGame() {
                     activeOpacity={0.8}
                   >
                     <LinearGradient
-                      colors={['#1e40af', '#1e3a8a']}
+                     colors={['#064e3b', '#065f46']}
                       style={styles.cardGradient}
                     >
                       <Text style={styles.cardBackText}>🂠</Text>
@@ -913,7 +913,9 @@ export default function RummyGame() {
               ))}
               {players[currentPlayer]?.melds.length === 0 && (
                 <View style={styles.emptyMeldsContainer}>
-                  <Text style={styles.emptyMeldsText}>No melds yet - select 3+ cards to create a meld</Text>
+                  
+                  <Text style={styles.emptyMeldsText}>No melds yet - select 3+ cards to create a meld  </Text>
+
                 </View>
               )}
             </ScrollView>
@@ -934,7 +936,7 @@ export default function RummyGame() {
                   activeOpacity={0.8}
                 >
                   <LinearGradient
-                    colors={['#10b981', '#059669']}
+                   colors={['#10b981', '#0a2318']} 
                     style={styles.actionButtonGradient}
                   >
                     <Text style={styles.actionButtonText}>Create Meld</Text>
@@ -948,7 +950,7 @@ export default function RummyGame() {
                   activeOpacity={0.8}
                 >
                   <LinearGradient
-                    colors={['#ef4444', '#dc2626']}
+                    colors={['#10b981', '#059669']} 
                     style={styles.actionButtonGradient}
                   >
                     <Text style={styles.actionButtonText}>Discard</Text>
@@ -1106,6 +1108,7 @@ flexDirection: 'row',
 justifyContent: 'center',
 alignItems: 'center',
 marginVertical: 15,
+backgroundColor: 'rgba(6,78,59,0.2)', 
 },
 deckArea: {
 flexDirection: 'row',
@@ -1125,7 +1128,8 @@ marginBottom: 15,
 },
 emptyMeldsContainer: {
 height: 100,
-backgroundColor: 'rgba(255, 255, 255, 0.1)',
+// backgroundColor: 'rgba(255, 255, 255, 0.1)',
+backgroundColor: 'rgba(6,78,59,0.4)',
 borderRadius: 8,
 justifyContent: 'center',
 alignItems: 'center',
@@ -1140,7 +1144,7 @@ textAlign: 'center',
 meld: {
 flexDirection: 'row',
 marginRight: 15,
-backgroundColor: 'rgba(255, 255, 255, 0.1)',
+backgroundColor: 'rgba(3, 70, 52, 0.94)',
 borderRadius: 8,
 padding: 8,
 },
