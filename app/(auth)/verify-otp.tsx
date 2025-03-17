@@ -49,7 +49,7 @@ export default function VerifyOTP() {
         throw new Error(data.message || 'Verification failed');
       }
 
-      router.replace('/Login');
+      router.replace('/(tabs)');
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError('Please check your OTP and MPIN');
