@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 // import { Chrome as Home, Users, Settings, Wallet } from 'lucide-react-native';
-import { Chrome as Home, Users, Settings, Wallet } from 'lucide-react-native';
+import { Chrome as Home, Users, Settings, Wallet, BotIcon } from 'lucide-react-native';
 import { Gamepad2 as RummyIcon , LogOut } from 'lucide-react-native';
 import RummyGame from './RummyGame';
 
@@ -43,6 +43,14 @@ export default function TabLayout() {
         options={{
           title: 'Rummy',
           tabBarIcon: ({ size, color }) => <RummyIcon size={size} color={color} />,
+        }
+      }
+      />
+        <Tabs.Screen
+        name="ChatWithUs"
+        options={{
+          title: 'ChatWithUs',
+          tabBarIcon: ({ size, color }) => <BotIcon size={size} color={color} />,
         }
       }
       />

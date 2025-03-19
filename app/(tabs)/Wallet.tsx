@@ -3,19 +3,20 @@ import { View, Text, TextInput, TouchableOpacity, Modal, FlatList, Image, StyleS
 import { useDeposit, useGetDeposit, useGetWallet } from '../../hooks/api';
 import { X } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import PaymentModal from '../PaymentModal';
+ 
+ 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   amount: number;
 }
-
+ 
 const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
   const [utrNumber, setUtrNumber] = useState('');
   const depositMutation = useDeposit();
   const [userMobile, setUserMobile] = useState<string>('');
-
+ 
   useEffect(() => {
     const getMobile = async () => {
       const mobile = await AsyncStorage.getItem('mobile'); // Use AsyncStorage
@@ -23,14 +24,14 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
     };
     getMobile();
   }, []);
-
+ 
   if (!isOpen) return null;
-
+ 
   const handleSubmit = () => {
     depositMutation.mutate({ mobile: userMobile, amount, utr: utrNumber });
     onClose();
   };
-
+ 
   return (
     <Modal visible={isOpen} transparent animationType="fade">
       <View style={styles.modalOverlay}>
@@ -41,14 +42,14 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
               <X size={24} color="#666" />
             </TouchableOpacity>
           </View>
-
+ 
           <View style={styles.qrContainer}>
             <Image
               source={{ uri: 'https://bgmgamemedia.s3.amazonaws.com/qrcodes/2670180A_QRCode_3.pdf_and_3_more_pages_-_Personal_-_Microsoft_Edge_1_27_2025_6_10_21_PM.png' }}
               style={styles.qrImage}
             />
           </View>
-
+ 
           <Text style={styles.label}>Enter UTR Number</Text>
           <TextInput
             value={utrNumber}
@@ -57,7 +58,7 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
             placeholder="Enter UTR number"
             keyboardType="default"
           />
-
+ 
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
@@ -66,13 +67,13 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
     </Modal>
   );
 };
-
+ 
 const Wallet = () => {
   const [amount, setAmount] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState<number>(0);
   const [userMobile, setUserMobile] = useState<string>('');
-
+ 
    useEffect(() => {
     const getMobile = async () => {
       const mobile = await AsyncStorage.getItem('mobile'); // Use AsyncStorage
@@ -80,15 +81,15 @@ const Wallet = () => {
     };
     getMobile();
   }, []);
-
+ 
   const { data, isLoading } = useGetDeposit(userMobile);
   const { data: walletData } = useGetWallet(userMobile);
   const predefinedAmounts = [500, 1000, 1500, 2000, 2500, 3000];
-
+ 
   const handleAmountSelect = (value: number) => {
     setAmount(value.toString());
   };
-
+ 
   const handleAddPoints = () => {
     const numAmount = parseInt(amount);
     if (numAmount > 0) {
@@ -98,13 +99,13 @@ const Wallet = () => {
       alert('Please enter a valid amount');
     }
   };
-
+ 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.walletTitle}>Total Points: {walletData?.TotalAmount}</Text>
         <Text style={styles.addPointsTitle}>Add Points</Text>
-
+ 
         <TextInput
           value={amount}
           onChangeText={setAmount}
@@ -112,7 +113,7 @@ const Wallet = () => {
           placeholder="Enter amount"
           keyboardType="numeric"
         />
-
+ 
         <View style={styles.amountGrid}>
           {predefinedAmounts.map((value) => (
             <TouchableOpacity key={value} style={styles.amountButton} onPress={() => handleAmountSelect(value)}>
@@ -120,15 +121,15 @@ const Wallet = () => {
             </TouchableOpacity>
           ))}
         </View>
-
+ 
         <TouchableOpacity style={styles.addButton} onPress={handleAddPoints}>
           <Text style={styles.addButtonText}>Add Points</Text>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.card}>
+ 
+      {/* <View style={styles.card}>
         <Text style={styles.historyTitle}>Wallet History</Text>
-
+ 
         <View style={styles.tableContainer}>
           <View style={styles.tableHeader}>
             <Text style={styles.headerCell}>Sr No</Text>
@@ -137,7 +138,7 @@ const Wallet = () => {
             <Text style={styles.headerCell}>Amount</Text>
             <Text style={styles.headerCell}>Status</Text>
           </View>
-
+ 
           <FlatList
             data={data?.data}
             keyExtractor={(item) => item._id}
@@ -152,15 +153,16 @@ const Wallet = () => {
             )}
           />
         </View>
-      </View>
-
-      <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} amount={selectedAmount} />
+      </View> */}
+ 
+      {/* <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} amount={selectedAmount} /> */}
+      <PaymentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} amount={selectedAmount} />
     </View>
   );
 };
-
+ 
 export default Wallet;
-
+ 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, backgroundColor: '#1E293B' },
   card: { backgroundColor: '#334155', padding: 20, borderRadius: 12, marginBottom: 20, elevation: 3 },

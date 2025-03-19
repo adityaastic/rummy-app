@@ -794,10 +794,11 @@
 
 import { View, Text, StyleSheet, Pressable, Animated, Easing } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { Redirect } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MessageCircle } from 'lucide-react-native';
 
 export default function Home() {
   const [userMobile, setUserMobile] = useState('');
@@ -1278,44 +1279,9 @@ export default function Home() {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
               >
-                <Text style={styles.buttonText}>Instant Pay</Text>
+                <Text style={styles.buttonText}>Instant Play</Text>
                 <View style={styles.buttonIcon}>
                   <Text style={styles.buttonIconText}>♣</Text>
-                </View>
-              </LinearGradient>
-            </Animated.View>
-          </Pressable>
-        </Link>
-
-        <Link href="/Wallet" asChild>
-          <Pressable>
-            <Animated.View 
-              style={[
-                styles.button, 
-                styles.casinoButton,
-                { 
-                  transform: [{ scale: buttonScale }],
-                  shadowOpacity: buttonGlow,
-                  shadowColor: '#0c6',
-                  shadowRadius: 15
-                }
-              ]}
-            >
-              <LinearGradient
-                colors={['#00a65a', '#004d25']}
-                style={styles.buttonGradient}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-              >
-                <Animated.View style={[
-                  styles.shine,
-                  {
-                    transform: [{ translateX: shineTranslate }]
-                  }
-                ]} />
-                <Text style={styles.buttonText}>Instant Pay</Text>
-                <View style={styles.buttonIcon}>
-                  <Text style={styles.buttonIconText}>♠</Text>
                 </View>
               </LinearGradient>
             </Animated.View>
@@ -1331,11 +1297,45 @@ export default function Home() {
       <View style={styles.footer}>
         <Text style={styles.footerText}>Big Wins Await! Play Now</Text>
       </View>
+
+      <View style={styles.chatbot}>
+      <Text onPress={() => router.push('/(tabs)/ChatWithUs')}  style={styles.chatbotbtn}>
+        <MessageCircle style={styles.chatbotIcon}/>
+      </Text>
+     
+      <Text style={styles.chatbotText}>Chat With Us</Text>
+    </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  chatbot: {
+    position: 'absolute',
+    width: '12%',
+    color:"white",
+   
+    // backgroundColor: "blue",
+    height: '40%',
+    bottom: -200,
+    right:10,
+  },
+  chatbotbtn:{
+    backgroundColor:"green",
+    color:"white",
+    borderRadius: 400,
+    padding:10,
+    textAlign:"center"
+  },
+  chatbotIcon:{
+    color:"white"
+  },
+  chatbotText:{
+    color:"white",
+    width:"100%",
+    fontSize:12,
+    textAlign:"center",
+  },
   container: {
     flex: 1,
     alignItems: 'center',

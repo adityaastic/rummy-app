@@ -4,72 +4,83 @@ import { Link, router } from 'expo-router';
 import { z } from 'zod';
 import { Phone, Mail } from 'lucide-react-native';
 import ComLogo from '@/assets/images/com-logo.svg';
-
+ 
 const signupSchema = z.object({
+  name: z.string(),
   mobile: z.string().min(10).max(10),
   email: z.string().email(),
   referred_by: z.string().optional(),
 });
-
+ 
 export default function Signup() {
+  const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
+ 
   const handleSignup = async () => {
     try {
       setError('');
       setLoading(true);
-
+ 
       // Validate input
-      signupSchema.parse({ mobile, email, referred_by: referralCode });
-
+      signupSchema.parse({ name,mobile, email, referred_by: referralCode });
+ 
       const response = await fetch('https://new.bgmgameresult.in/club/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile, email, referred_by: referralCode || undefined }),
+        body: JSON.stringify({name, mobile, email, referred_by: referralCode || undefined }),
       });
-
+ 
       const data = await response.json();
-
+ 
       if (!response.ok) {
         throw new Error(data.message || 'Signup failed');
       }
-
+ 
       // Navigate to OTP verification
       router.push({ pathname: '/verify-otp', params: { mobile, email } });
     } catch (err) {
       if (err instanceof z.ZodError) {
-
+ 
         setError('Please check your mobile number and email');
-
+ 
       } else if (err instanceof Error) {
-
+ 
         setError(err.message);
-
+ 
       } else {
-
+ 
         setError('An unexpected error occurred');
-
+ 
       }
     } finally {
       setLoading(false);
     }
   };
-
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome To BGM Game!</Text>
-
+ 
       <View style={[styles.logoContainer, { marginTop: 30 }]}>
             <ComLogo width={150} height={150} />
           </View>
-
+ 
       <Text style={[styles.signupText,{ marginBottom: 30 }]}>SIGN UP</Text>
-
+ 
       <View style={styles.form}>
+      <View style={styles.inputContainer}>
+  <TextInput
+    style={[styles.input, { flex: 1 }]}
+    placeholder="Full Name"
+    autoCapitalize="none"
+    value={name}
+    onChangeText={setName}
+  />
+</View>
         <View style={styles.inputContainer}>
           <Phone size={20} color="#04240c" style={styles.inputIcon} />
           <TextInput
@@ -81,7 +92,7 @@ export default function Signup() {
             maxLength={10}
           />
         </View>
-
+ 
         <View style={styles.inputContainer}>
           <Mail size={20} color="#04240c" style={styles.inputIcon} />
           <TextInput
@@ -93,7 +104,7 @@ export default function Signup() {
             onChangeText={setEmail}
           />
         </View>
-
+ 
         <View style={styles.inputContainer}>
   <TextInput
     style={[styles.input, { flex: 1 }]}
@@ -103,16 +114,16 @@ export default function Signup() {
     onChangeText={setReferralCode}
   />
 </View>
-
+ 
         {error ? <Text style={styles.error}>{error}</Text> : null}
-
+ 
         <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading}>
           {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Sign Up</Text>}
         </TouchableOpacity>
-
+ 
         <Link href="/login" style={styles.createAccount}>Already have an account? Login</Link>
       </View>
-
+ 
       {/* <View style={styles.footer}>
         <Text style={styles.footerText}>About Us | Privacy Policy | Refund Policy</Text>
         <Text style={styles.footerText}>Help | Cancellation Policy | Referral Policy | Withdraw Policy</Text>
@@ -120,7 +131,7 @@ export default function Signup() {
     </View>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -129,6 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
+    top:20,
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ffffff',
@@ -155,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   form: {
-    
+   
     width: '100%',
   },
   inputContainer: {
@@ -176,7 +188,7 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 16,
     color: '#04240c',
-    
+   
   },
   button: {
     backgroundColor: '#05791e',
@@ -213,3 +225,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+ 
+ 
