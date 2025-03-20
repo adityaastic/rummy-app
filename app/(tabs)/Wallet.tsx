@@ -32,6 +32,9 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
     onClose();
   };
  
+  
+
+
   return (
     <Modal visible={isOpen} transparent animationType="fade">
       <View style={styles.modalOverlay}>
@@ -50,7 +53,7 @@ const QRModal: React.FC<ModalProps> = ({ isOpen, onClose, amount }) => {
             />
           </View>
  
-          <Text style={styles.label}>Enter UTR Number</Text>
+          <Text >Enter UTR Number</Text>
           <TextInput
             value={utrNumber}
             onChangeText={setUtrNumber}
@@ -99,11 +102,32 @@ const Wallet = () => {
       alert('Please enter a valid amount');
     }
   };
+
+  const [winningAmount, setWinningAmount] = useState<number>(0);
+console.log("+++++++++++++++++++++++++++++++++++++",winningAmount)
+useEffect(() => {
+  const fetchWinningAmount = async () => {
+    try {
+      const storedAmount = await AsyncStorage.getItem('spin_winner');
+      if (storedAmount) {
+        setWinningAmount(Number(storedAmount));
+      }
+    } catch (error) {
+      console.error('Error retrieving winning amount:', error);
+    }
+  };
+ 
+  fetchWinningAmount();
+}, []);
  
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.walletTitle}>Total Points: {walletData?.TotalAmount}</Text>
+      <Text style={styles.walletTitle}>
+  Total Points: {(Number(walletData?.TotalAmount) || 0) + (Number(winningAmount) || 0)}
+</Text>
+
+
         <Text style={styles.addPointsTitle}>Add Points</Text>
  
         <TextInput
@@ -164,7 +188,7 @@ const Wallet = () => {
 export default Wallet;
  
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#1E293B' },
+  container: { flex: 1, padding: 16, backgroundColor: '#1E293B', marginTop:40 },
   card: { backgroundColor: '#334155', padding: 20, borderRadius: 12, marginBottom: 20, elevation: 3 },
   walletTitle: { fontSize: 24, fontWeight: 'bold', marginBottom: 10, color: 'white', textAlign: 'center' },
   addPointsTitle: { fontSize: 20, fontWeight: '600', marginBottom: 10, color: 'white', textAlign: 'center' },
