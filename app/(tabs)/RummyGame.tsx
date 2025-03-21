@@ -1242,7 +1242,7 @@ export default function EnhancedRummyGame() {
                     <Text style={styles.sectionTitle}>Bot's Hand:</Text>
                     {thinking && (
                       <Animated.View style={[{ transform: [{ translateY: botThinkingAnim.y }] }]}>
-                        <Text style={styles.thinking}>Thinking...</Text>
+                        <Text style={styles.thinking}> Thinking...</Text>
                       </Animated.View>
                     )}
                   </View>
@@ -1472,6 +1472,10 @@ const styles = StyleSheet.create({
   thinking: {
     color: '#FFD700',
     fontStyle: 'italic',
+    borderWidth:2,
+    backgroundColor:"green",
+    borderRadius:6,
+    padding: 2
   },
   gameArea: {
     flexDirection: 'row',

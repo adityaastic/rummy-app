@@ -54,14 +54,7 @@ export default function TabLayout() {
         }
       }
       />
-      <Tabs.Screen
-        name="SpinAndEarn"
-        options={{
-          title: 'SpinAndEarn',
-          tabBarIcon: ({ size, color }) => <Aperture size={size} color={color} />,
-        }
-      }
-     />
+     
     </Tabs>
   );
 }
